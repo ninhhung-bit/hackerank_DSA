@@ -1,0 +1,111 @@
+6.2 /// tìm  kiếm số trong dãy
+
+  public static int introTutorial(int V, List<Integer> arr) {
+        int left = 0;
+        int right = arr.size() -1;
+        
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int value = arr.get(mid);
+            
+            if(value == V) {
+                return mid;
+            } else if (value > V) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+            return -1;
+
+    }
+
+
+
+6.3// đưa phần tử cuối danh sách vào đúng vị trị để dãy tăng dần
+
+
+public static void printList (List<Integer> arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+public static void insertionSort1(int n, List<Integer> arr) {
+
+        int tmp = arr.size();
+        int value = arr.get(tmp-1);
+        int i = tmp-2;
+        
+        while (i >=0 && arr.get(i) > value) {
+            arr.set(i + 1, arr.get(i));
+            
+            printList(arr);
+            i--;
+        }
+        arr.set(i + 1,value);
+        printList(arr);
+    }
+}
+
+
+
+6.4// Sau mỗi lần (vòng lặp) chèn được một số, in ra trạng thái mảng
+
+
+public static void printList(List<Integer> arr) {
+        for(int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+  }
+    
+public static void insertionSort2(int n, List<Integer> arr) {
+    
+         for (int i = 1; i < n; i++) {
+            int value = arr.get(i);
+            int j = i - 1;
+
+            while (j >= 0 && arr.get(j) > value) {     
+                arr.set(j + 1, arr.get(j));
+                j--;
+            }
+
+            arr.set(j + 1, value);
+            
+            printList(arr);
+        }
+
+  }
+
+
+
+
+
+6.6///  In ra (lần lượt) số lần xuất hiện của các số từ 0 tới 99.
+
+
+
+public static List<Integer> countingSort(List<Integer> arr) {
+
+        List<Integer> result = new ArrayList<>(Collections.nCopies(100,0));     
+        
+        for (int num : arr) {
+            result.set(num, result.get(num)+1);
+        }
+        
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
