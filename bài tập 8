@@ -1,0 +1,147 @@
+8.2 /// xem một chuỗi kí tự có phải là "palindrome" hay không ? Chuỗi kí tự là "palindrome" nếu đọc xuôi giống như đọc ngược.
+
+        int len = A.length();
+        int mid = len /2;
+        int tmp = 0;
+        for (int i = 0; i <= mid ; i++ ) {
+            if (A.charAt(i) != A.charAt(len -1 -i)) {
+                System.out.print("No");
+                tmp++;
+                break;
+            }
+        }
+        
+        if(tmp == 0 ) {
+            System.out.print("Yes");
+        }
+
+
+8.3// Bước 1: Nếu số nhỏ nhất trong dãy nhỏ hơn K, lấy số đó ra - giả sử là m1. Sau đó tìm số nhỏ nhất trong các số còn lại - giả sử là m2. Thay số m2 bằng số có giá trị (m1 + 2 * m2).
+Bước 2: Lặp lại bước 1 cho tới khi không còn số nào nhỏ hơn K.
+Bước 3: Hãy in ra số lần thay số cần làm để tất cả các số còn lại lớn hơn hay bằng K. In ra -1 nếu không thể làm được.
+
+
+ public static int cookies(int k, List<Integer> A) {
+ 
+       PriorityQueue<Integer> pq = new PriorityQueue<>(A);
+        int tmp = 0;
+
+        while (pq.size() > 1 && pq.peek() < k) {
+            int least = pq.poll(); // lay va xoa phan tu nho nhat
+            int secondLeast = pq.poll();  // lay va xoa tiep
+            int combined = least + 2 * secondLeast;
+            pq.offer(combined);
+            tmp++;
+        }
+
+        if (pq.peek() >= k) {
+            return tmp;
+        } else {
+            return -1;
+        }
+    }
+
+
+8.4// Các sinh viên sắp hàng, được phục vụ theo trật tự ưu tiên, lần lượt là: a) Điểm (CGPA) càng cao càng tốt, b) tên theo trật tự chữ cái và c) mã (token - id) càng nhỏ càng tốt.
+
+Nếu lệnh là "ENTER" thì đưa sinh viên vào hàng; nếu là "SERVED" thì sinh viên được ưu tiên nhất (được phục vụ và) ra khỏi hàng.
+
+Yêu cầu: In ra các sinh viên còn lại trong hàng, theo trật tự ưu tiên (cao xuống thấp). Nếu hàng rỗng, in ra "EMPTY".
+
+
+
+class StudentComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        if (Double.compare(s2.getCgpa(), s1.getCgpa()) != 0)
+        
+            return Double.compare(s2.getCgpa(), s1.getCgpa()); 
+        else if (!s1.getName().equals(s2.getName()))
+            return s1.getName().compareTo(s2.getName());       
+        else
+            return Integer.compare(s1.getId(), s2.getId());    
+    }
+}
+
+class Priorities {
+    public List<Student> getStudents(List<String> events) {
+        PriorityQueue<Student> pq = new PriorityQueue<>(new StudentComparator());
+
+        for (String e : events) {
+            String[] parts = e.split(" ");
+            String command = parts[0];
+
+            if (command.equals("ENTER")) {
+                String name = parts[1];
+                double cgpa = Double.parseDouble(parts[2]);
+                int id = Integer.parseInt(parts[3]);
+                pq.add(new Student(id, name, cgpa));            // thêm
+            } else if (command.equals("SERVED")) {
+                pq.poll();                                      // xoá
+            }
+        }
+
+        List<Student> remaining = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            remaining.add(pq.poll());
+        }
+
+        return remaining;
+    }
+}
+
+8.5 //  Sắp xếp và sau đó in ra dãy có n số có giá trị trong khoảng từ 0 tới 99.
+
+public static List<Integer> countingSort(List<Integer> arr) {
+
+        List<Integer> result = new ArrayList<>(Collections.nCopies(100, 0));
+        
+        for (int num : arr) {
+            result.set(num , result.get(num) +1);
+        }
+         
+        List<Integer> sorted = new ArrayList<>();
+        
+        for (int i = 0; i < result.size(); i++) {
+            int count = result.get(i);
+            for (int j = 0; j < count; j++) {
+                sorted.add(i);
+            }
+        }
+
+        return sorted;
+    }
+
+
+
+8.6 //  Đọc lần lượt vào N số nguyên. Sau mỗi lần đọc vào số thứ i, in ra giá trị trung vị của i số đã nhập vào.
+
+public static List<Double> runningMedian(List<Integer> a) {
+
+        List<Double> medians = new ArrayList<>();
+        List<Integer> sorted = new ArrayList<>();
+        
+        for (int num : a) {
+            int pos = Collections.binarySearch(sorted, num);
+            // tra ve vi tri neu co num, tra ve so am neu khong co
+            if (pos < 0) {
+                pos = - (pos + 1);
+            }
+            sorted.add(pos, num);
+            
+            int n = sorted.size();
+            if (n % 2 == 1) {
+                medians.add((double) sorted.get(n/2));
+            } else {
+                double median = ( sorted.get(n/2) + sorted.get(n/2 - 1) ) / 2.0;
+                medians.add(median);
+            }
+        }
+        
+        return medians;
+
+    }
+
+
+
+
