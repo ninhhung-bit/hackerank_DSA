@@ -1,0 +1,178 @@
+10.2//  Viết hàm Tìm độ cao của cây nhị phân.
+
+
+public static int height(Node root) {
+      	// Write your code here.
+        if (root == null) {
+            return -1;
+        }
+        
+        int lefthight = height(root.left);
+        int righthight = height(root.right);
+        
+        return 1 + Math.max(lefthight , righthight);
+    }
+
+    
+10.3// Viết hàm Thêm/Chèn một đỉnh với giá trị cho trước vào cây tìm kiếm nhị phân.
+
+
+public static Node insert(Node root,int data) {
+        if (root == null) {
+            return new Node(data);
+        } else {
+            if (root.data > data) {
+                root.left = insert(root.left, data);
+            } else {
+                root.right = insert(root.right, data);
+            }
+            return root;
+        }
+    }
+
+
+10.4// Tìm đỉnh tổ tiên chung gần nhất của 2 đỉnh cho trước
+
+
+public static Node lca(Node root, int v1, int v2) {
+        if (root == null) {
+            return null;   
+        } else {
+            if (v1 > root.data && v2 > root.data) {
+                return lca(root.right, v1 ,v2);
+            } else if (v1 < root.data && v2 < root.data) {
+                return lca(root.left, v1, v2);
+            } else {
+                return root;  
+            }
+        }
+
+}
+
+
+10.5 // Kiểm tra xem cây hiện tại có phải là cây tìm kiếm nhị phân hay không ?
+
+  boolean checkBST(Node root) {
+        return BST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    boolean BST(Node node, int min, int max) {
+        if (node == null) {
+            return true;
+        }
+
+        if (node.data <= min || node.data >= max)
+            return false;
+
+        return BST(node.left, min, node.data) &&        
+            BST(node.right, node.data, max);
+    }
+
+10.6///Viết hàm Chèn/Thêm một đỉnh với khoá cho trước vào cây tìm kiếm nhị phân cân bằng AVL
+
+public class Solution {
+
+    static int height(Node n) {
+        return (n == null) ? 0 : n.height;
+    }
+
+    static int getBalance(Node n) {
+        return (n == null) ? 0 : height(n.left) - height(n.right);
+    }
+
+    static Node rotateRight(Node y) {
+        Node x = y.left;
+        Node T2 = x.right;
+
+        x.right = y;
+        y.left = T2;
+
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+
+        return x;
+    }
+
+    static Node rotateLeft(Node x) {
+        Node y = x.right;
+        Node T2 = y.left;
+
+        y.left = x;
+        x.right = T2;
+
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+
+        return y;
+    }
+
+    static Node insert(Node root, int val) {
+        if (root == null)
+            return new Node(val);
+
+        if (val < root.data)
+            root.left = insert(root.left, val);
+        else if (val > root.data)
+            root.right = insert(root.right, val);
+        else 
+            return root;
+
+        root.height = 1 + Math.max(height(root.left), height(root.right));
+        int balance = getBalance(root);
+
+       
+        if (balance > 1 && val < root.left.data)  lệch trái
+            return rotateRight(root);
+
+        if (balance < -1 && val > root.right.data)   lệch phải 
+            return rotateLeft(root);
+
+        if (balance > 1 && val > root.left.data) {    lệch trái phải
+            root.left = rotateLeft(root.left);
+            return rotateRight(root);
+        }
+
+        if (balance < -1 && val < root.right.data) {    lệch phải trái 
+            root.right = rotateRight(root.right);
+            return rotateLeft(root);
+        }
+
+        return root;
+    }
+
+    static void inorder(Node root) {
+        if (root == null) return;
+        inorder(root.left);
+        System.out.print(root.data + "(BF=" + getBalance(root) + ") ");
+        inorder(root.right);
+    }
+
+    static void preorder(Node root) {
+        if (root == null) return;
+        System.out.print(root.data + "(BF=" + getBalance(root) + ") ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Node root = null;
+        for (int i = 0; i < n; i++) {
+            root = insert(root, sc.nextInt());
+        }
+        int val = sc.nextInt();
+
+        root = insert(root, val);
+        inorder(root);
+        System.out.println();
+
+        root = insert(root, val);
+        preorder(root);
+        System.out.println();
+    }
+}
+
+
+
+
