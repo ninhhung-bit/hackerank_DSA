@@ -1,0 +1,93 @@
+9.2 // Trước tiên, nhập vào danh sách tên người cùng số điện thoại. Sau đó, với mỗi câu hỏi có tên người, in ra số điện thoại tương ứng; Nếu không có người nào có tên đó, thì in ra "Not found".
+
+
+public static void main(String []argh) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        in.nextLine();
+        
+        Map<String, String> phonename = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            String name = in.nextLine();
+            
+            String phone = in.nextLine();
+            phonename.put(name, phone);
+        }
+
+        while (in.hasNext()) {
+            String test = in.nextLine();
+            if (phonename.containsKey(test)) {
+                System.out.println(test + "=" + phonename.get(test));
+            } else {
+                System.out.println("Not found");
+            }
+        }
+        in.close();
+    }
+
+
+9.3// Nhập vào một cặp 2 chuỗi. Sau mỗi lần nhập, in ra số lượng các cặp duy nhất (không kể bị lặp lại) đã được nhập.
+
+
+        Set<String> result = new HashSet<>();
+    
+        for(int i = 0; i < t ;i++) {
+            String pair = pair_left[i] + " " + pair_right[i];
+            result.add(pair);                    
+            System.out.println(result.size());                  // vì nếu trùng thì kích cỡ ko đổi
+        }
+
+
+9.4// duyệt cây theo thứ tự trong
+
+ public static void inOrder(Node root) {
+        
+        if (root == null) {
+            return; 
+        }
+
+        inOrder(root.left);          
+        System.out.print(root.data + " "); 
+        inOrder(root.right); 
+    }
+
+
+9.5// duyệt cây theo thứ tự trước 
+
+ public static void preOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        
+        System.out.print(root.data + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+9.6// duyệt cây theo thứ tự từ trên xuống 
+
+public static void levelOrder(Node root) {
+        if (root == null ) {
+            return;
+        }
+        
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        
+        while (!que.isEmpty()) {
+            Node current = que.poll();          
+            System.out.print(current.data + " "); 
+
+            if (current.left != null) {
+                que.add(current.left);   
+            }
+            if (current.right != null) {
+                que.add(current.right);
+            }
+        }
+      
+    }
+
+
+
