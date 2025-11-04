@@ -1,0 +1,114 @@
+7.2 ///  In ra ước chung lớn nhất của hai số nguyên.
+
+
+ Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        
+        while(a != 0) {
+            int c = b % a;
+            b = a;
+            a = c;
+        }
+        System.out.println(b);
+    }
+
+
+7.3 // Sắp xếp danh sách sinh viên theo trật tự lần lượt là: a) Điểm (CGPA) càng cao càng tốt, b) tên theo trật tự chữ cái và c) mã (id) càng nhỏ càng tốt.
+
+
+class StudentComparator implements Comparator<Student> {
+    
+    @Override
+    public int compare(Student x, Student y) {
+      
+        if (Double.compare(y.getCgpa(), x.getCgpa()) != 0)
+            return Double.compare(y.getCgpa(), x.getCgpa());      // gpa
+       
+        int nameComp = x.getFname().compareTo(y.getFname());     // chữ cái
+        if (nameComp != 0)
+            return nameComp;
+        
+        return Integer.compare(x.getId(), y.getId());            // mã id
+    }
+}
+
+
+
+
+7.4 /// chia mảng thành 2 phần nhỏ hơn và lớn hơn phần tử chốt 
+
+public static List<Integer> quickSort(List<Integer> arr) {
+        int tmp = arr.get(0);
+        List<Integer> trai = new ArrayList<>();
+        List<Integer> phai = new ArrayList<>();
+        List<Integer> giua = new ArrayList<>();
+        
+        for(int num : arr) {
+            if (num > tmp) {
+                phai.add(num);
+            } else if (num < tmp) {
+                trai.add(num);
+            } else {
+                giua.add(num);
+            }
+        }   
+        
+        List<Integer> result = new ArrayList<>();
+        result.addAll(trai);
+        result.addAll(giua);
+        result.addAll(phai);
+        
+        return result;
+
+    }
+
+
+
+7.5//  Cài đặt thuật toán QuickSort. In ra toàn bộ mảng các số cứ sau mỗi lần thực hiện partition (mỗi lần phân chia).
+
+
+public static int patition (List<Integer> arr, int truoc, int sau) {
+        int tmp = arr.get(sau);
+        int i = truoc - 1;
+        
+        for (int j = truoc ; j < sau ; j++) {
+            if (arr.get(j) <= tmp ) {
+                i++;
+                Collections.swap(arr,i,j);
+            }
+        } 
+        Collections.swap(arr, i + 1, sau );
+        printArray(arr);
+        
+        return i + 1;
+        
+    }
+    
+    public static void quickSort(List<Integer> arr , int truoc , int sau) {
+        if(truoc < sau) {
+            int pi = patition(arr,truoc,sau);
+            quickSort(arr, truoc , pi -1);      //sắp xep bên trái
+            quickSort(arr, pi + 1, sau);        // xắp xếp bên phải
+        }
+    }
+    
+    public static void printArray(List<Integer> arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+
+7.6//  tìm số trung vị
+
+public static int findMedian(List<Integer> arr) {
+
+        Collections.sort(arr);
+        int len = arr.size();
+        int mid = len/2;
+        return arr.get(mid);
+    }
+
+
+
