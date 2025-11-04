@@ -1,0 +1,113 @@
+4.2 // In ra mảng ngược
+
+    public static List<Integer> reverseArray(List<Integer> a) {
+    // Write your code here
+        List<Integer> tmp = new ArrayList<>();
+        int n = a.size();
+        for(int i=n-1;i>=0;i--){
+           tmp.add(a.get(i));
+        }
+        return tmp;
+
+    }
+
+}
+
+
+
+4.3 /// đồng hồ cát
+
+public static int hourglassSum(List<List<Integer>> arr) {
+    int maxSum = Integer.MIN_VALUE; // có thể có số âm
+
+    for (int i = 0; i <= 3; i++) {
+        for (int j = 0; j <= 3; j++) {
+            int sum =
+                arr.get(i).get(j) + arr.get(i).get(j + 1) + arr.get(i).get(j + 2) 
+                                  + arr.get(i + 1).get(j + 1) +
+                arr.get(i + 2).get(j) + arr.get(i + 2).get(j + 1) + arr.get(i + 2).get(j + 2);
+
+            maxSum = Math.max(maxSum, sum);
+        }
+    }
+
+    return maxSum;
+}
+
+
+4.4 /// có số i không để tổng phải bằng tổng trái
+
+public static String balancedSums(List<Integer> arr) {
+    int totalSum = 0;
+    for (int num : arr) {
+        totalSum += num;
+    }
+
+    int leftSum = 0;
+    for (int i = 0; i < arr.size(); i++) {
+        int rightSum = totalSum - leftSum - arr.get(i);
+        if (leftSum == rightSum) {
+            return "YES";
+        }
+        leftSum += arr.get(i);
+    }
+
+    return "NO";
+}
+
+
+4.5 /// tìm cặp chênh lệch nhỏ nhất
+
+public static List<Integer> closestNumbers(List<Integer> arr) {
+ 
+        mergeSort(arr, 0, arr.size() - 1);
+
+        List<Integer> result = new ArrayList<>();
+        int minDiff = Integer.MAX_VALUE;
+
+        for (int i = 0; i < arr.size() - 1; i++) {
+            int diff = arr.get(i + 1) - arr.get(i);
+            if (diff < minDiff) {
+                minDiff = diff;
+            }
+        }
+  
+        for (int i = 0; i < arr.size() - 1; i++) {
+            int diff = arr.get(i + 1) - arr.get(i);
+            if (diff == minDiff) {
+                result.add(arr.get(i));
+                result.add(arr.get(i + 1));
+            }
+        }
+
+        return result;
+        }
+
+    }
+
+
+
+    4.6//  tìm 2 phần tử có độ lệch k
+
+    public static int pairs(int k, List<Integer> arr) {
+    // Write your code here
+        Set<Integer> set = new HashSet<>(arr);
+        int count = 0;
+        for (int num : arr) {
+            if (set.contains(num + k)) {   // co phan tu num+k
+                count++;
+            }   
+        }
+        return count;
+    }
+
+
+
+
+
+
+
+
+
+
+
