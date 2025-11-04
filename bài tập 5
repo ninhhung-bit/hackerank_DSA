@@ -1,0 +1,234 @@
+5.2 /// thêm phần tử và xoá phần tử
+
+public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        
+        List<Integer> L = new ArrayList<>();
+        
+        for (int i = 0;i < N;i++) {
+            L.add(sc.nextInt());
+        }
+        
+        int Q = sc.nextInt();
+        for (int i = 0; i < Q; i++) {
+            String tmp = sc.next();
+            if (tmp.equals("Insert")) {
+                int x = sc.nextInt();
+                int y = sc.nextInt();
+                L.add(x, y);
+            } else if (tmp.equals("Delete")) {
+                int x = sc.nextInt();
+                L.remove(x);
+            }
+        }
+        
+        for (int num : L) {
+            System.out.print(num + " ");
+        }
+        
+    }
+
+
+
+
+5.3 /// in ra giá trị cột y , hàng x
+
+        Scanner sc = new Scanner(System.in);
+        int n = Integer.parseInt(sc.nextLine());
+        
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
+        
+        for (int i = 0;i < n;i++) {
+            String line = sc.nextLine().trim();
+            ArrayList<Integer> row = new ArrayList<>();
+            
+            if(!line.isEmpty()) {
+                String[] parts = line.split("\\s+");
+                for (String s : parts) {
+                    row.add(Integer.parseInt(s));
+                }
+            }
+
+            arr.add(row);
+            }
+            int q = Integer.parseInt(sc.nextLine());
+        for (int i = 0; i < q; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+
+       
+            try {
+                System.out.println(arr.get(x - 1).get(y));
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("ERROR!");
+            }
+        }
+
+
+
+5.4 // dấu đóng mở ngoặc có đúng quuy tắc hay không
+
+public static String isBalanced(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char ch : s.toCharArray()) {
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
+            } else {
+                if (stack.isEmpty()) {
+                    return "NO";
+                }
+                    
+                char top = stack.pop();
+                if ((ch == ')' && top != '(') ||
+                    (ch == ']' && top != '[') ||
+                    (ch == '}' && top != '{')) {
+                    return "NO";
+                }
+            }
+        }
+        if (stack.isEmpty()) {
+            return "YES";
+        } else {
+            return "NO";
+        }
+
+    }
+
+}
+
+
+5.5 // tìm độ cao chung lớn nhât của 3 chồng đĩa
+
+ private static int sumList(List<Integer> s) {
+        int sum = 0;
+        for (int x : s) sum += x;
+        return sum;
+    }
+    
+ public static int equalStacks(List<Integer> h1, List<Integer> h2, List<Integer> h3) {
+
+        int sum1 = sumList(h1);
+        int sum2 = sumList(h2);
+        int sum3 = sumList(h3);
+
+        int i1 = 0, i2 = 0, i3 = 0;
+
+        while (true) {
+            
+            if (i1 == h1.size() || i2 == h2.size() || i3 == h3.size()) {
+                return 0;
+            }
+
+            if (sum1 == sum2 && sum2 == sum3) {
+                return sum1;
+            }
+
+            if (sum1 >= sum2 && sum1 >= sum3) {
+                sum1 -= h1.get(i1++);
+            } else if (sum2 >= sum1 && sum2 >= sum3) {
+                sum2 -= h2.get(i2++);
+            } else {
+                sum3 -= h3.get(i3++);
+            }
+        }
+
+    }
+
+5.6 // 4 thao tác append, delete, print và undo
+
+public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int q = Integer.parseInt(br.readLine().trim());
+        StringBuilder sb = new StringBuilder();
+        Deque<String> stack = new ArrayDeque<>();
+        StringBuilder out = new StringBuilder();
+        
+        for (int i = 0; i < q; i++) {
+            String line = br.readLine();
+            String[] parts = line.split(" ", 2);
+            int type = Integer.parseInt(parts[0]);
+
+            if (type == 1) { 
+                
+                stack.push(sb.toString());
+                String w = parts[1];
+                sb.append(w);                // append
+                
+            } else if (type == 2) {           // delete
+                
+                stack.push(sb.toString());
+                int k = Integer.parseInt(parts[1]);
+                int newLen = sb.length() - k;
+                if (newLen >= 0) {
+                    sb.delete(newLen, sb.length());
+                } else {
+                    sb.setLength(0);
+                }
+                
+            } else if (type == 3) {           // print
+                
+                int k = Integer.parseInt(parts[1]);
+                if (k >= 1 && k <= sb.length()) {
+                    out.append(sb.charAt(k - 1)).append('\n');
+                }
+                
+            } else if (type == 4) {           // undo
+                if (!stack.isEmpty()) {
+                    sb = new StringBuilder(stack.pop());
+                } else {
+                    sb.setLength(0);
+                }
+            }
+        }
+
+        System.out.print(out.toString());
+    }
+
+
+
+
+5.7 // sử dụng queue với enqueue, dequeue và print
+
+        Scanner sc = new Scanner(System.in);
+        int q = sc.nextInt();
+
+        Deque<Integer> stackIn = new ArrayDeque<>();
+        Deque<Integer> stackOut = new ArrayDeque<>();
+
+        for (int i = 0; i < q; i++) {
+            int type = sc.nextInt();
+
+            if (type == 1) {                // enqueue
+                int x = sc.nextInt(); 
+                stackIn.push(x);
+
+            } else if (type == 2) {        // dequeue
+        
+                if (stackOut.isEmpty()) {
+                    while (!stackIn.isEmpty()) {
+                        stackOut.push(stackIn.pop());
+                    }
+                }
+                if (!stackOut.isEmpty()) {
+                    stackOut.pop();
+                }
+
+            } else if (type == 3) {        // print
+                
+                if (stackOut.isEmpty()) {
+                    while (!stackIn.isEmpty()) {
+                        stackOut.push(stackIn.pop());
+                    }
+                }
+                if (!stackOut.isEmpty()) {
+                    System.out.println(stackOut.peek());
+                }
+            }
+        }
+
+
+
+
