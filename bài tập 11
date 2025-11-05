@@ -1,0 +1,78 @@
+11.4//  Đếm số các cặp số nguyên có chênh lệch là K.
+
+ public static int pairs(int k, List<Integer> arr) {
+
+        Set<Integer> set = new HashSet<>(arr);
+        int count = 0;
+        for (int num : arr) {
+            if (set.contains(num + k)) {   // co phan tu num+k
+                count++;
+            }   
+        }
+        return count;
+    }
+
+
+11.5 //   Cho 2 danh sách A và B. (Chênh lệch giữa số lớn nhất và nhỏ nhất của B là không quá 100.) Tìm và in ra các số có trong B nhưng không có trong A theo trật tự tăng dần.
+
+
+public static List<Integer> missingNumbers(List<Integer> arr, List<Integer> brr) {
+        
+        Map<Integer, Integer> result = new HashMap<>();
+        
+        for (int num : brr) {
+            result.put(num, result.getOrDefault(num, 0) + 1); // xem da ton tai chua, lay gia tri cu +1
+        }
+
+        for (int num : arr) {
+            if (result.containsKey(num)) {
+                result.put(num, result.get(num) - 1);
+            }
+        }
+        
+        List<Integer> missing = new ArrayList<>();
+        
+        for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
+            if (entry.getValue() > 0) {
+                missing.add(entry.getKey());
+            }
+        }
+        Collections.sort(missing);
+        return missing;
+        
+    }
+
+
+11.6 /// Đọc lần lượt vào N số nguyên. Sau mỗi lần đọc vào số thứ i, in ra giá trị trung vị của i số đã nhập vào.
+
+
+public static List<Double> runningMedian(List<Integer> a) {
+
+        List<Double> medians = new ArrayList<>();
+        List<Integer> sorted = new ArrayList<>();
+        
+        for (int num : a) {
+            int pos = Collections.binarySearch(sorted, num);
+            // tra ve vi tri neu co num, tra ve so am neu khong co
+            if (pos < 0) {
+                pos = - (pos + 1);
+            }
+            sorted.add(pos, num);
+            
+            int n = sorted.size();
+            if (n % 2 == 1) {
+                medians.add((double) sorted.get(n/2));
+            } else {
+                double median = ( sorted.get(n/2) + sorted.get(n/2 - 1) ) / 2.0;
+                medians.add(median);
+            }
+        }
+        
+        return medians;
+    }
+
+
+
+
+
+
